@@ -1,130 +1,57 @@
-# RunAnywhere Web Starter App
+# AURA AI 🎙️🧠
+**Offline, Secure, AI-Powered Technical Interview Intelligence.**
 
-A minimal React + TypeScript starter app demonstrating **on-device AI in the browser** using the [`@runanywhere/web`](https://www.npmjs.com/package/@runanywhere/web) SDK. All inference runs locally via WebAssembly — no server, no API key, 100% private.
+Aura AI is a completely private, on-device technical interview simulator. Built for candidates to practice their skills without limits, without subscriptions, and without sending their personal voice data to the cloud. 
 
-## Features
+Powered by the `@runanywhere/web` SDK, Aura AI runs entirely in your browser using WebGPU and WebAssembly. **No servers. No API keys. 100% private.**
 
-| Tab | What it does |
-|-----|-------------|
-| **Chat** | Stream text from an on-device LLM (LFM2 350M) |
-| **Vision** | Point your camera and describe what the VLM sees (LFM2-VL 450M) |
-| **Voice** | Speak naturally — VAD detects speech, STT transcribes, LLM responds, TTS speaks back |
+---
 
-## Quick Start
+## ✨ Key Features
+
+* 🎙️ **Real-Time Voice Pipeline:** Speak naturally. Aura uses Silero VAD to detect when you are talking and Sherpa-ONNX (Whisper) to transcribe your speech instantly offline.
+* 🧠 **Local LLM Engine:** The "brain" of the interviewer runs on an LFM2 350M model executed directly on your device's GPU via `llama.cpp` in the browser.
+* 📚 **Offline RAG (Retrieval-Augmented Generation):** Context is everything. Aura AI utilizes local document parsing and context-injection to tailor the interview directly to your specific background and the target role—all processed locally without external API calls.
+* ♿ **Inclusive by Design (A11y):** We believe interview prep should be accessible to everyone. The UI is built with deep screen-reader compatibility and semantic HTML specifically optimized for **Braille displays** (utilizing targeted `.sr-only` CSS techniques) to fully support visually impaired candidates.
+* 📊 **Instant Analytics & Scorecards:** After the interview, Aura processes the conversation history and generates a structured JSON scorecard, evaluating your technical accuracy, communication, and areas for growth.
+* 🔒 **Zero-Trust Privacy:** Your voice, your resume, and your mistakes never leave your laptop. Everything is processed locally and cached in your browser's OPFS (Origin Private File System).
+
+---
+
+## 🚀 Quick Start (Local Development)
+
+Want to run the Aura AI interviewer on your own machine? It takes less than 2 minutes to boot.
 
 ```bash
+# 1. Clone the repository and install dependencies
 npm install
+
+# 2. Start the local development server
 npm run dev
-```
 
-Open [http://localhost:5173](http://localhost:5173). Models are downloaded on first use and cached in the browser's Origin Private File System (OPFS).
+## 🏗️ Architecture & How It Works
 
-## How It Works
+Aura AI replaces traditional cloud API calls with hardcore browser engineering. 
 
-```
-@runanywhere/web (npm package)
-  ├── WASM engine (llama.cpp, whisper.cpp, sherpa-onnx)
-  ├── Model management (download, OPFS cache, load/unload)
-  └── TypeScript API (TextGeneration, STT, TTS, VAD, VLM, VoicePipeline)
-```
+**The Tech Stack:**
+* **Frontend:** React, TypeScript, Vite, Tailwind/Custom CSS.
+* **AI Engine:** `@runanywhere/web` SDK.
+* **WASM Modules:** `llama.cpp` (LLM/VLM), `whisper.cpp` / `sherpa-onnx` (STT/TTS).
+* **Storage:** OPFS (Origin Private File System) for lightning-fast model caching.
 
-The app imports everything from `@runanywhere/web`:
+**The Pipeline:**
+1. **Context & RAG:** The user's target role and context are loaded into the local engine's prompt architecture.
+2. **Audio Capture:** Your microphone feeds into a local SharedArrayBuffer.
+3. **VAD & STT:** The WebAssembly worker detects speech and transcribes it offline.
+4. **LLM Inference:** The transcribed text is sent to the local LLM, which adopts the persona of an expert technical interviewer.
+5. **JSON Extraction:** Once the interview concludes, a secondary hidden prompt forces the LLM to output pure JSON, which is parsed by the React frontend into a beautiful `ScorecardDashboard`.
 
-```typescript
-import { RunAnywhere, SDKEnvironment } from '@runanywhere/web';
-import { TextGeneration, VLMWorkerBridge } from '@runanywhere/web-llamacpp';
+---
 
-await RunAnywhere.initialize({ environment: SDKEnvironment.Development });
+## 💻 Browser Requirements
 
-// Stream LLM text
-const { stream } = await TextGeneration.generateStream('Hello!', { maxTokens: 200 });
-for await (const token of stream) { console.log(token); }
-
-// VLM: describe an image
-const result = await VLMWorkerBridge.shared.process(rgbPixels, width, height, 'Describe this.');
-```
-
-## Project Structure
-
-```
-src/
-├── main.tsx              # React root
-├── App.tsx               # Tab navigation (Chat | Vision | Voice)
-├── runanywhere.ts        # SDK init + model catalog + VLM worker
-├── workers/
-│   └── vlm-worker.ts     # VLM Web Worker entry (2 lines)
-├── hooks/
-│   └── useModelLoader.ts # Shared model download/load hook
-├── components/
-│   ├── ChatTab.tsx        # LLM streaming chat
-│   ├── VisionTab.tsx      # Camera + VLM inference
-│   ├── VoiceTab.tsx       # Full voice pipeline
-│   └── ModelBanner.tsx    # Download progress UI
-└── styles/
-    └── index.css          # Dark theme CSS
-```
-
-## Adding Your Own Models
-
-Edit the `MODELS` array in `src/runanywhere.ts`:
-
-```typescript
-{
-  id: 'my-custom-model',
-  name: 'My Model',
-  repo: 'username/repo-name',           // HuggingFace repo
-  files: ['model.Q4_K_M.gguf'],         // Files to download
-  framework: LLMFramework.LlamaCpp,
-  modality: ModelCategory.Language,      // or Multimodal, SpeechRecognition, etc.
-  memoryRequirement: 500_000_000,        // Bytes
-}
-```
-
-Any GGUF model compatible with llama.cpp works for LLM/VLM. STT/TTS/VAD use sherpa-onnx models.
-
-## Deployment
-
-### Vercel
-
-```bash
-npm run build
-npx vercel --prod
-```
-
-The included `vercel.json` sets the required Cross-Origin-Isolation headers.
-
-### Netlify
-
-Add a `_headers` file:
-
-```
-/*
-  Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Embedder-Policy: credentialless
-```
-
-### Any static host
-
-Serve the `dist/` folder with these HTTP headers on all responses:
-
-```
-Cross-Origin-Opener-Policy: same-origin
-Cross-Origin-Embedder-Policy: credentialless
-```
-
-## Browser Requirements
-
-- Chrome 96+ or Edge 96+ (recommended: 120+)
-- WebAssembly (required)
-- SharedArrayBuffer (requires Cross-Origin Isolation headers)
-- OPFS (for persistent model cache)
-
-## Documentation
-
-- [SDK API Reference](https://docs.runanywhere.ai)
-- [npm package](https://www.npmjs.com/package/@runanywhere/web)
-- [GitHub](https://github.com/RunanywhereAI/runanywhere-sdks)
-
-## License
-
-MIT
+Because Aura AI runs massive AI models locally, you need a modern browser to unleash its full potential:
+* **Chrome 113+ or Edge 113+** (Required for WebGPU support).
+* **Hardware:** A dedicated GPU or modern integrated graphics (Apple Silicon M1/M2/M3 works beautifully).
+* **Memory:** At least 8GB of system RAM.
+* *Note: Cross-Origin-Isolation headers are required and enabled by default in our Vite config for SharedArrayBuffer support.*
