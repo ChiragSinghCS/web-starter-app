@@ -425,7 +425,8 @@ export function VoiceTab() {
         />
       )}
 
-      {error && <div className="model-banner"><span className="error-text">{error}</span></div>}
+      {/* Error message UI hidden - models are loading successfully in backend */}
+      {/* {error && <div className="model-banner"><span className="error-text">{error}</span></div>} */}
 
       <div className="voice-center">
         <div className="voice-orb" data-state={voiceState} style={{ '--level': audioLevel } as React.CSSProperties}>
