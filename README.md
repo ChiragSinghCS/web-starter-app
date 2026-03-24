@@ -22,7 +22,6 @@ Powered by the `@runanywhere/web` SDK, Aura AI runs entirely in your browser usi
 
 Want to run the Aura AI interviewer on your own machine? It takes less than 2 minutes to boot.
 
-```bash
 # 1. Clone the repository and install dependencies
 npm install
 
