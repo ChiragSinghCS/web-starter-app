@@ -1,26 +1,26 @@
-# AURA AI 🎙️🧠
+# INTERN AI 🎙️🧠
 **Offline, Secure, AI-Powered Technical Interview Intelligence.**
 
-Aura AI is a completely private, on-device technical interview simulator. Built for candidates to practice their skills without limits, without subscriptions, and without sending their personal voice data to the cloud. 
+Intern AI is a completely private, on-device technical interview simulator. Built for candidates to practice their skills without limits, without subscriptions, and without sending their personal voice data to the cloud. 
 
-Powered by the `@runanywhere/web` SDK, Aura AI runs entirely in your browser using WebGPU and WebAssembly. **No servers. No API keys. 100% private.**
+Powered by the `@runanywhere/web` SDK, Intern AI runs entirely in your browser using WebGPU and WebAssembly. **No servers. No API keys. 100% private.**
 
 ---
 
 ## ✨ Key Features
 
-* 🎙️ **Real-Time Voice Pipeline:** Speak naturally. Aura uses Silero VAD to detect when you are talking and Sherpa-ONNX (Whisper) to transcribe your speech instantly offline.
+* 🎙️ **Real-Time Voice Pipeline:** Speak naturally. Intern AI uses Silero VAD to detect when you are talking and Sherpa-ONNX (Whisper) to transcribe your speech instantly offline.
 * 🧠 **Local LLM Engine:** The "brain" of the interviewer runs on an LFM2 350M model executed directly on your device's GPU via `llama.cpp` in the browser.
-* 📚 **Offline RAG (Retrieval-Augmented Generation):** Context is everything. Aura AI utilizes local document parsing and context-injection to tailor the interview directly to your specific background and the target role—all processed locally without external API calls.
+* 📚 **Offline RAG (Retrieval-Augmented Generation):** Context is everything. Intern AI utilizes local document parsing and context-injection to tailor the interview directly to your specific background and the target role—all processed locally without external API calls.
 * ♿ **Inclusive by Design (A11y):** We believe interview prep should be accessible to everyone. The UI is built with deep screen-reader compatibility and semantic HTML specifically optimized for **Braille displays** (utilizing targeted `.sr-only` CSS techniques) to fully support visually impaired candidates.
-* 📊 **Instant Analytics & Scorecards:** After the interview, Aura processes the conversation history and generates a structured JSON scorecard, evaluating your technical accuracy, communication, and areas for growth.
+* 📊 **Instant Analytics & Scorecards:** After the interview, Intern AI processes the conversation history and generates a structured JSON scorecard, evaluating your technical accuracy, communication, and areas for growth.
 * 🔒 **Zero-Trust Privacy:** Your voice, your resume, and your mistakes never leave your laptop. Everything is processed locally and cached in your browser's OPFS (Origin Private File System).
 
 ---
 
 ## 🚀 Quick Start (Local Development)
 
-Want to run the Aura AI interviewer on your own machine? It takes less than 2 minutes to boot.
+Want to run the Intern AI interviewer on your own machine? It takes less than 2 minutes to boot.
 
 # 1. Clone the repository and install dependencies
 npm install
@@ -30,7 +30,7 @@ npm run dev
 
 ## 🏗️ Architecture & How It Works
 
-Aura AI replaces traditional cloud API calls with hardcore browser engineering. 
+Intern AI replaces traditional cloud API calls with hardcore browser engineering. 
 
 **The Tech Stack:**
 * **Frontend:** React, TypeScript, Vite, Tailwind/Custom CSS.
@@ -49,7 +49,7 @@ Aura AI replaces traditional cloud API calls with hardcore browser engineering.
 
 ## 💻 Browser Requirements
 
-Because Aura AI runs massive AI models locally, you need a modern browser to unleash its full potential:
+Because Intern AI runs massive AI models locally, you need a modern browser to unleash its full potential:
 * **Chrome 113+ or Edge 113+** (Required for WebGPU support).
 * **Hardware:** A dedicated GPU or modern integrated graphics (Apple Silicon M1/M2/M3 works beautifully).
 * **Memory:** At least 8GB of system RAM.

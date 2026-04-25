@@ -46,12 +46,12 @@ export function VoiceTab() {
         // Check if LLM model is already loaded
         const loadedModel = ModelManager.getLoadedModel(ModelCategory.Language);
         if (!loadedModel) {
-          console.log("Aura AI is waking up...");
+          console.log("Intern AI is waking up...");
           await llmLoader.ensure();
-          console.log("Aura AI is ready!");
+          console.log("Intern AI is ready!");
         }
       } catch (err) {
-        console.error("Failed to wake up Aura AI:", err);
+        console.error("Failed to wake up Intern AI:", err);
       }
     };
     initModel();
@@ -186,7 +186,7 @@ export function VoiceTab() {
 
       // Safety check: Ensure LLM model is loaded
       if (!ModelManager.getLoadedModel(ModelCategory.Language)) {
-        setError('Aura AI is still waking up... please wait 5 seconds.');
+        setError('Intern AI is still waking up... please wait 5 seconds.');
         setVoiceState('idle');
         return;
       }
@@ -243,7 +243,7 @@ export function VoiceTab() {
     try {
       // Safety check: Ensure LLM model is loaded
       if (!ModelManager.getLoadedModel(ModelCategory.Language)) {
-        setError('Aura AI is still waking up... please wait 5 seconds.');
+        setError('Intern AI is still waking up... please wait 5 seconds.');
         setVoiceState('idle');
         return;
       }
@@ -539,7 +539,7 @@ export function VoiceTab() {
                     
                     {/* Name Label */}
                     <span style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '4px', padding: '0 4px', fontWeight: 'bold' }}>
-                      {isUser ? 'YOU' : 'AURA AI'}
+                      {isUser ? 'YOU' : 'INTERN AI'}
                     </span>
 
                     {/* Chat Bubble */}

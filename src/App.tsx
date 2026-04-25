@@ -42,7 +42,7 @@ export function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>RunAnywhere AI</h1>
+        <h1>Intern AI</h1>
         {accel && <span className="badge">{accel === 'webgpu' ? 'WebGPU' : 'CPU'}</span>}
       </header>
 
